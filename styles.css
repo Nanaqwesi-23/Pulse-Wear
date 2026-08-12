@@ -81,6 +81,19 @@ button {
         align-items: right;
 right: 67%;
  }
+
+@media (min-width: 1024px) {
+   .header img {
+      width: 10%;
+      border-radius: 50%;
+      height: 50%;
+      display: flex;
+      position: absolute;
+      right: 60%;
+   }
+}
+
+
      .menu-btn {
         justify-self: start;
 
