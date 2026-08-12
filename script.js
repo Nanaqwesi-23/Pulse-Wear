@@ -1,4 +1,3 @@
-
 /* ==========================================
    PULSE WEAR JAVASCRIPT
 ========================================== */
@@ -438,6 +437,74 @@ productModalOverlay.addEventListener(
 
 
 /* ==========================================
+   ADDED TO CART NOTIFICATION
+========================================== */
+
+function showAddedToCart() {
+
+    const notification =
+        document.createElement("div");
+
+
+    notification.textContent =
+        "Added to cart";
+
+
+    notification.style.position =
+        "fixed";
+
+    notification.style.bottom =
+        "90px";
+
+    notification.style.left =
+        "50%";
+
+    notification.style.transform =
+        "translateX(-50%)";
+
+    notification.style.background =
+        "#111";
+
+    notification.style.color =
+        "#fff";
+
+    notification.style.padding =
+        "12px 22px";
+
+    notification.style.borderRadius =
+        "25px";
+
+    notification.style.fontSize =
+        "15px";
+
+    notification.style.fontWeight =
+        "600";
+
+    notification.style.zIndex =
+        "99999";
+
+    notification.style.boxShadow =
+        "0 5px 20px rgba(0,0,0,0.2)";
+
+
+    document.body.appendChild(
+        notification
+    );
+
+
+    setTimeout(
+        () => {
+
+            notification.remove();
+
+        },
+        1800
+    );
+
+}
+
+
+/* ==========================================
    ADD TO CART
 ========================================== */
 
@@ -513,21 +580,18 @@ modalAddToCart.addEventListener(
 
 
         /*
-           IMPORTANT:
            Do NOT open the cart automatically.
-           The customer can continue shopping.
+           Customer can continue shopping.
         */
 
         closeProductModalWindow();
 
 
         /*
-           Small confirmation message
+           Show clean website notification
         */
 
-        alert(
-            `${selectedProduct.name} has been added to your bag.`
-        );
+        showAddedToCart();
 
 
         selectedProduct = null;
@@ -979,8 +1043,6 @@ function updateCheckoutTotals() {
         subtotal + delivery;
 
 
-    /* FIXED GH₵ DISPLAY */
-
     checkoutSubtotal.textContent =
         `GH₵${subtotal.toFixed(2)}`;
 
@@ -1401,4 +1463,3 @@ updateCart();
 updateSavedProducts();
 
 updateCheckoutTotals();
-
