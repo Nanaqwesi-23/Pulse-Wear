@@ -1,12 +1,12 @@
 /* ==========================================
    PULSE WEAR
    STANDARD PROFESSIONAL STYLE SHEET
-   ========================================== */
+========================================== */
 
 
 /* ==========================================
    RESET
-   ========================================== */
+========================================== */
 
 * {
     box-sizing: border-box;
@@ -41,46 +41,52 @@ button {
 
 /* ==========================================
    PROMO BAR
-   ========================================== */
-/* ==========================================
-   PROMO BAR - MOVING TEXT
 ========================================== */
 
 .promo-bar {
     background: #111;
     color: #fff;
-    padding: 10px 0;
+    height: 38px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 1px;
+}
+
+.promo-bar span {
+    position: absolute;
+    left: 0;
     white-space: nowrap;
-    overflow: hidden;
-    position: relative;
+    display: block;
+    animation: promoMoveRight 10s linear infinite;
 }
 
-.promo-bar {
-    animation: promoMove 12s linear infinite;
-}
+@keyframes promoMoveRight {
 
-@keyframes promoMove {
     0% {
         transform: translateX(-100%);
     }
 
-    100% {
-        transform: translateX(100%);
+    60% {
+        transform: translateX(100vw);
     }
+
+    100% {
+        transform: translateX(100vw);
+    }
+
 }
-
-    
-
 
 
 /* ==========================================
    HEADER
-   ========================================== */
+========================================== */
 
-    
 .header {
     height: 72px;
     display: flex;
@@ -88,44 +94,43 @@ button {
     justify-content: space-between;
     padding: 0 25px;
     background: #fff;
-    border-bottom: 1px solid ;
+    border-bottom: 1px solid #ddd;
     position: sticky;
     top: 0;
     z-index: 50;
-     }
+}
 
-     .header img { 
+.header img {
+    width: 10%;
+    border-radius: 50%;
+    height: 50%;
+    display: flex;
+    position: absolute;
+    right: 67%;
+}
+
+@media (min-width: 1024px) {
+
+    .header img {
         width: 10%;
         border-radius: 50%;
         height: 50%;
         display: flex;
         position: absolute;
-        align-items: right;
-right: 67%;
- }
+        right: 60%;
+    }
 
-@media (min-width: 1024px) {
-   .header img {
-      width: 10%;
-      border-radius: 50%;
-      height: 50%;
-      display: flex;
-      position: absolute;
-      right: 60%;
-   }
 }
 
-
-     .menu-btn {
-        justify-self: start;
-
+.menu-btn {
+    justify-self: start;
 }
 
 .logo {
-    color:#111;
+    color: #111;
     text-decoration: none;
     font-size: 30px;
-font-weight: 900;
+    font-weight: 900;
     letter-spacing: 4px;
 }
 
@@ -136,16 +141,21 @@ font-weight: 900;
     font-size: 25px;
 }
 
-.menu-btn  {
+.menu-btn {
     width: 45px;
     text-align: left;
-    }
+}
+
 .header-icons {
     display: flex;
     align-items: center;
     gap: 14px;
 }
 
+
+/* ==========================================
+   CART BUTTON
+========================================== */
 
 .cart-button {
     position: relative;
@@ -172,8 +182,8 @@ font-weight: 900;
     position: absolute;
     top: -6px;
     right: -8px;
-    background: black;
-    color: white;
+    background: #000;
+    color: #fff;
     width: 17px;
     height: 17px;
     border-radius: 50%;
@@ -182,13 +192,12 @@ font-weight: 900;
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 
 /* ==========================================
    MOBILE MENU
-   ========================================== */
+========================================== */
 
 .mobile-menu {
     position: fixed;
@@ -251,7 +260,7 @@ font-weight: 900;
 
 /* ==========================================
    SEARCH
-   ========================================== */
+========================================== */
 
 .search-box {
     display: none;
@@ -288,7 +297,7 @@ font-weight: 900;
 
 /* ==========================================
    MAIN SECTIONS
-   ========================================== */
+========================================== */
 
 main,
 .saved-section,
@@ -315,7 +324,7 @@ main,
 
 /* ==========================================
    PRODUCTS
-   ========================================== */
+========================================== */
 
 .product-grid,
 .saved-grid {
@@ -381,7 +390,7 @@ main,
 
 /* ==========================================
    SAVED ITEMS
-   ========================================== */
+========================================== */
 
 .saved-section {
     background: #fafafa;
@@ -421,7 +430,7 @@ main,
 
 /* ==========================================
    ABOUT
-   ========================================== */
+========================================== */
 
 .about {
     background: #111;
@@ -446,7 +455,7 @@ main,
 
 /* ==========================================
    CUSTOMER SERVICE
-   ========================================== */
+========================================== */
 
 .customer-service {
     padding: 70px 25px;
@@ -504,7 +513,7 @@ main,
 
 /* ==========================================
    BOTTOM NAVIGATION
-   ========================================== */
+========================================== */
 
 .bottom-nav {
     position: fixed;
@@ -544,7 +553,7 @@ main,
 
 /* ==========================================
    CART
-   ========================================== */
+========================================== */
 
 .cart-overlay {
     position: fixed;
@@ -664,7 +673,7 @@ main,
 
 /* ==========================================
    PRODUCT MODAL
-   ========================================== */
+========================================== */
 
 .product-modal-overlay {
     position: fixed;
@@ -787,7 +796,7 @@ main,
 
 /* ==========================================
    CHECKOUT
-   ========================================== */
+========================================== */
 
 .checkout-panel {
     position: fixed;
@@ -872,7 +881,7 @@ main,
 
 /* ==========================================
    MOBILE
-   ========================================== */
+========================================== */
 
 @media (max-width: 600px) {
 
@@ -892,6 +901,11 @@ main,
 
     .search-box {
         top: 68px;
+    }
+
+    .promo-bar {
+        height: 36px;
+        font-size: 12px;
     }
 
     main,
@@ -947,11 +961,9 @@ main,
 
 /* ==========================================
    DESKTOP
-   ========================================== */
+========================================== */
 
 @media (min-width: 768px) {
-
-    /* HEADER */
 
     .header {
         height: 82px;
@@ -972,32 +984,20 @@ main,
         gap: 18px;
     }
 
-
-    /* PROMO */
-
     .promo-bar {
-        padding: 11px 15px;
+        height: 40px;
         font-size: 13px;
     }
-
-
-    /* HERO */
 
     .hero img {
         max-height: 600px;
     }
-
-
-    /* SECTIONS */
 
     main,
     .saved-section,
     .about {
         padding: 70px 50px;
     }
-
-
-    /* HEADINGS */
 
     .small-title {
         font-size: 13px;
@@ -1006,9 +1006,6 @@ main,
     .section-heading h2 {
         font-size: 40px;
     }
-
-
-    /* PRODUCTS */
 
     .product-grid,
     .saved-grid {
@@ -1034,9 +1031,6 @@ main,
         font-size: 23px;
     }
 
-
-    /* ABOUT */
-
     .about {
         padding: 80px 50px;
     }
@@ -1048,9 +1042,6 @@ main,
     .about p {
         font-size: 17px;
     }
-
-
-    /* CUSTOMER SERVICE */
 
     .customer-service {
         padding: 75px 50px;
@@ -1064,9 +1055,6 @@ main,
         font-size: 17px;
     }
 
-
-    /* BOTTOM NAV */
-
     .bottom-nav {
         height: 75px;
     }
@@ -1078,9 +1066,6 @@ main,
     .bottom-nav small {
         font-size: 12px;
     }
-
-
-    /* PRODUCT MODAL */
 
     .product-modal-info h2 {
         font-size: 32px;
@@ -1094,9 +1079,6 @@ main,
         font-size: 14px;
     }
 
-
-    /* CART */
-
     .cart-header h2,
     .checkout-header h2 {
         font-size: 24px;
@@ -1109,9 +1091,6 @@ main,
     .cart-item-info p {
         font-size: 14px;
     }
-
-
-    /* CHECKOUT */
 
     #checkout-form label {
         font-size: 14px;
@@ -1136,7 +1115,7 @@ main,
 
 /* ==========================================
    LARGE DESKTOP
-   ========================================== */
+========================================== */
 
 @media (min-width: 1200px) {
 
@@ -1191,9 +1170,11 @@ main,
         font-size: 42px;
     }
 }
+
+
 /* ==========================================
    WHATSAPP ICON
-   ========================================== */
+========================================== */
 
 .whatsapp-icon {
     width: 24px;
