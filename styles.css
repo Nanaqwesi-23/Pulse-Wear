@@ -42,16 +42,38 @@ button {
 /* ==========================================
    PROMO BAR
    ========================================== */
+/* ==========================================
+   PROMO BAR - MOVING TEXT
+========================================== */
 
 .promo-bar {
     background: #111;
     color: #fff;
-    text-align: center;
-    padding: 10px 15px;
+    padding: 10px 0;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
 }
+
+.promo-bar {
+    animation: promoMove 12s linear infinite;
+}
+
+@keyframes promoMove {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+    
+
 
 
 /* ==========================================
