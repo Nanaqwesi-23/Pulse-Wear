@@ -884,13 +884,8 @@ function openCart() {
 
 function closeCartPanel() {
 
-    cartPanel.classList.remove(
-        "open"
-    );
-
-    cartOverlay.classList.remove(
-        "open"
-    );
+    cartPanel.classList.remove("open");
+    cartOverlay.classList.remove("open");
 
 }
 
@@ -1332,51 +1327,39 @@ if (paymentMethod) {
 }
 
 
+ 
+
 /* ==========================================
    CHECKOUT
 ========================================== */
 
 function openCheckout() {
 
-    /* CHECK CART */
-
-    if (
-        cart.length === 0
-    ) {
+    // Make sure cart has items
+    if (cart.length === 0) {
 
         showNotification(
-            "Your bag is empty."
+            "Your cart is empty."
         );
 
         return;
-
     }
 
-
-    /* CLOSE CART */
-
-    closeCartPanel();
-
-
-    /* UPDATE TOTALS */
-
+    // Update checkout prices first
     updateCheckoutTotals();
 
+    // Close cart
+    cartPanel.classList.remove("open");
+    cartOverlay.classList.remove("open");
 
-    /* OPEN CHECKOUT */
-
-    checkoutPanel.classList.add(
-        "open"
-    );
-
+    // Open checkout immediately
+    checkoutPanel.classList.add("open");
 }
 
 
 function closeCheckoutPanel() {
 
-    checkoutPanel.classList.remove(
-        "open"
-    );
+    checkoutPanel.classList.remove("open");
 
 }
 
@@ -1392,7 +1375,6 @@ if (checkoutButton) {
         function(event) {
 
             event.preventDefault();
-
             event.stopPropagation();
 
             openCheckout();
@@ -1660,7 +1642,7 @@ if (checkoutForm) {
             ====================================== */
 
             const whatsappNumber =
-                "233XXXXXXXXX";
+                "233500309758";
 
 
             const whatsappURL =
