@@ -109,7 +109,7 @@ button {
     right: 67%;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
 
     .header img {
         width: 10%;
