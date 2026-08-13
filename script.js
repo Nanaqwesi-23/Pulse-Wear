@@ -1,6 +1,5 @@
 /* ==========================================
    PULSE WEAR JAVASCRIPT
-   REVISED PROFESSIONAL VERSION
 ========================================== */
 
 
@@ -16,6 +15,104 @@ let savedProducts =
 
 const productCards =
     document.querySelectorAll(".product-card");
+
+
+/* ==========================================
+   CUSTOM PULSE NOTIFICATION
+========================================== */
+
+function showNotification(message) {
+
+    let notification =
+        document.querySelector(".pulse-notification");
+
+    if (!notification) {
+
+        notification =
+            document.createElement("div");
+
+        notification.className =
+            "pulse-notification";
+
+        notification.style.position =
+            "fixed";
+
+        notification.style.left =
+            "50%";
+
+        notification.style.bottom =
+            "95px";
+
+        notification.style.background =
+            "#111";
+
+        notification.style.color =
+            "#fff";
+
+        notification.style.padding =
+            "14px 24px";
+
+        notification.style.borderRadius =
+            "6px";
+
+        notification.style.fontSize =
+            "14px";
+
+        notification.style.fontWeight =
+            "600";
+
+        notification.style.zIndex =
+            "99999";
+
+        notification.style.textAlign =
+            "center";
+
+        notification.style.maxWidth =
+            "calc(100% - 30px)";
+
+        notification.style.opacity =
+            "0";
+
+        notification.style.transform =
+            "translateX(-50%) translateY(20px)";
+
+        notification.style.transition =
+            "opacity 0.25s ease, transform 0.25s ease";
+
+        notification.style.pointerEvents =
+            "none";
+
+        document.body.appendChild(
+            notification
+        );
+
+    }
+
+    notification.textContent =
+        message;
+
+    notification.style.opacity =
+        "1";
+
+    notification.style.transform =
+        "translateX(-50%) translateY(0)";
+
+    clearTimeout(
+        window.pulseNotificationTimer
+    );
+
+    window.pulseNotificationTimer =
+        setTimeout(() => {
+
+            notification.style.opacity =
+                "0";
+
+            notification.style.transform =
+                "translateX(-50%) translateY(20px)";
+
+        }, 2500);
+
+}
 
 
 /* ==========================================
@@ -75,55 +172,6 @@ const codOption =
 
 const codMessage =
     document.querySelector("#cod-message");
-
-
-/* ==========================================
-   PULSE WEAR NOTIFICATION
-========================================== */
-
-function showNotification(message) {
-
-    let notification =
-        document.querySelector(".pulse-notification");
-
-    if (!notification) {
-
-        notification =
-            document.createElement("div");
-
-        notification.className =
-            "pulse-notification";
-
-        document.body.appendChild(
-            notification
-        );
-    }
-
-
-    notification.textContent =
-        message;
-
-
-    notification.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        notification.notificationTimer
-    );
-
-
-    notification.notificationTimer =
-        setTimeout(() => {
-
-            notification.classList.remove(
-                "show"
-            );
-
-        }, 2500);
-
-}
 
 
 /* ==========================================
@@ -269,7 +317,6 @@ if (searchInput) {
                     .toLowerCase()
                     .trim();
 
-
             productCards.forEach(card => {
 
                 const name =
@@ -277,7 +324,6 @@ if (searchInput) {
                         .querySelector("h3")
                         .textContent
                         .toLowerCase();
-
 
                 card.style.display =
                     name.includes(term)
@@ -335,7 +381,9 @@ let selectedSize = null;
 
 function getProductSizes(card) {
 
-    if (card.dataset.sizeType === "shoes") {
+    if (
+        card.dataset.sizeType === "shoes"
+    ) {
 
         return [
             "38",
@@ -396,34 +444,41 @@ function openProductModal(card) {
     selectedSize = null;
 
 
-    modalImage.src = image;
+    modalImage.src =
+        image;
 
-    modalImage.alt = name;
+    modalImage.alt =
+        name;
 
-    modalName.textContent = name;
+    modalName.textContent =
+        name;
 
-    modalPrice.textContent = priceText;
+    modalPrice.textContent =
+        priceText;
 
     selectedSizeText.textContent =
         "Select a size";
 
-
-    modalSizes.innerHTML = "";
+    modalSizes.innerHTML =
+        "";
 
 
     getProductSizes(card)
         .forEach(size => {
 
             const button =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
-
-            button.type = "button";
+            button.type =
+                "button";
 
             button.className =
                 "size-option";
 
-            button.textContent = size;
+            button.textContent =
+                size;
 
 
             button.addEventListener(
@@ -431,7 +486,9 @@ function openProductModal(card) {
                 () => {
 
                     document
-                        .querySelectorAll(".size-option")
+                        .querySelectorAll(
+                            ".size-option"
+                        )
                         .forEach(item => {
 
                             item.classList.remove(
@@ -446,7 +503,8 @@ function openProductModal(card) {
                     );
 
 
-                    selectedSize = size;
+                    selectedSize =
+                        size;
 
 
                     selectedSizeText.textContent =
@@ -456,14 +514,20 @@ function openProductModal(card) {
             );
 
 
-            modalSizes.appendChild(button);
+            modalSizes.appendChild(
+                button
+            );
 
         });
 
 
-    productModal.classList.add("open");
+    productModal.classList.add(
+        "open"
+    );
 
-    productModalOverlay.classList.add("open");
+    productModalOverlay.classList.add(
+        "open"
+    );
 
 }
 
@@ -474,26 +538,25 @@ function openProductModal(card) {
 
 function closeProductModalWindow() {
 
-    productModal.classList.remove("open");
+    productModal.classList.remove(
+        "open"
+    );
 
-    productModalOverlay.classList.remove("open");
+    productModalOverlay.classList.remove(
+        "open"
+    );
 
 }
 
 
-/* ==========================================
-   PRODUCT IMAGE CLICK
-========================================== */
-
 productCards.forEach(card => {
 
-    const image =
+    const productImage =
         card.querySelector(".product-image");
 
+    if (productImage) {
 
-    if (image) {
-
-        image.addEventListener(
+        productImage.addEventListener(
             "click",
             event => {
 
@@ -504,7 +567,6 @@ productCards.forEach(card => {
                     return;
 
                 }
-
 
                 openProductModal(card);
 
@@ -544,10 +606,7 @@ if (modalAddToCart) {
 
     modalAddToCart.addEventListener(
         "click",
-        event => {
-
-            event.preventDefault();
-
+        () => {
 
             if (!selectedProduct) {
 
@@ -556,7 +615,7 @@ if (modalAddToCart) {
             }
 
 
-            /* NO SIZE SELECTED */
+            /* SIZE CHECK */
 
             if (!selectedSize) {
 
@@ -601,7 +660,8 @@ if (modalAddToCart) {
                     size:
                         selectedSize,
 
-                    quantity: 1
+                    quantity:
+                        1
 
                 });
 
@@ -616,16 +676,16 @@ if (modalAddToCart) {
             closeProductModalWindow();
 
 
-            /* CLEAN PULSE NOTIFICATION */
-
             showNotification(
                 "Added to cart"
             );
 
 
-            selectedProduct = null;
+            selectedProduct =
+                null;
 
-            selectedSize = null;
+            selectedSize =
+                null;
 
         }
     );
@@ -634,7 +694,7 @@ if (modalAddToCart) {
 
 
 /* ==========================================
-   CART STORAGE
+   CART FUNCTIONS
 ========================================== */
 
 function saveCart() {
@@ -646,10 +706,6 @@ function saveCart() {
 
 }
 
-
-/* ==========================================
-   CART SUBTOTAL
-========================================== */
 
 function getCartSubtotal() {
 
@@ -668,18 +724,14 @@ function getCartSubtotal() {
 }
 
 
-/* ==========================================
-   UPDATE CART
-========================================== */
-
 function updateCart() {
 
     if (!cartItemsContainer) {
         return;
     }
 
-
-    cartItemsContainer.innerHTML = "";
+    cartItemsContainer.innerHTML =
+        "";
 
 
     if (cart.length === 0) {
@@ -697,7 +749,9 @@ function updateCart() {
             (item, index) => {
 
                 const element =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
 
                 element.className =
@@ -750,7 +804,9 @@ function updateCart() {
 
 
     document
-        .querySelectorAll(".remove-cart-item")
+        .querySelectorAll(
+            ".remove-cart-item"
+        )
         .forEach(button => {
 
             button.addEventListener(
@@ -808,23 +864,33 @@ function updateCart() {
 
 
 /* ==========================================
-   OPEN CART
+   OPEN / CLOSE CART
 ========================================== */
 
 function openCart() {
 
-    cartPanel.classList.add("open");
+    cartPanel.classList.add(
+        "open"
+    );
 
-    cartOverlay.classList.add("open");
+    cartOverlay.classList.add(
+        "open"
+    );
+
+    updateCart();
 
 }
 
 
 function closeCartPanel() {
 
-    cartPanel.classList.remove("open");
+    cartPanel.classList.remove(
+        "open"
+    );
 
-    cartOverlay.classList.remove("open");
+    cartOverlay.classList.remove(
+        "open"
+    );
 
 }
 
@@ -883,19 +949,17 @@ function updateSavedProducts() {
                 .textContent;
 
         const heart =
-            card.querySelector(".heart");
-
-
-        if (!heart) {
-            return;
-        }
+            card.querySelector(
+                ".heart"
+            );
 
 
         if (
             savedProducts.includes(name)
         ) {
 
-            heart.textContent = "♥";
+            heart.textContent =
+                "♥";
 
             heart.classList.add(
                 "saved"
@@ -903,7 +967,8 @@ function updateSavedProducts() {
 
         } else {
 
-            heart.textContent = "♡";
+            heart.textContent =
+                "♡";
 
             heart.classList.remove(
                 "saved"
@@ -919,14 +984,12 @@ function updateSavedProducts() {
 }
 
 
-/* ==========================================
-   RENDER SAVED PRODUCTS
-========================================== */
-
 function renderSavedProducts() {
 
     const savedGrid =
-        document.querySelector(".saved-grid");
+        document.querySelector(
+            ".saved-grid"
+        );
 
 
     if (!savedGrid) {
@@ -934,7 +997,8 @@ function renderSavedProducts() {
     }
 
 
-    savedGrid.innerHTML = "";
+    savedGrid.innerHTML =
+        "";
 
 
     if (
@@ -961,27 +1025,41 @@ function renderSavedProducts() {
                     .find(
                         item =>
                             item
-                                .querySelector("h3")
+                                .querySelector(
+                                    "h3"
+                                )
                                 .textContent ===
                             productName
                     );
 
 
             if (!card) {
+
                 return;
+
             }
 
 
             const image =
-                card.querySelector("img").src;
+                card
+                    .querySelector(
+                        "img"
+                    )
+                    .src;
 
 
             const price =
-                card.querySelector(".price").textContent;
+                card
+                    .querySelector(
+                        ".price"
+                    )
+                    .textContent;
 
 
             const savedCard =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             savedCard.className =
@@ -1023,7 +1101,9 @@ function renderSavedProducts() {
 
 
             savedCard
-                .querySelector(".remove-saved")
+                .querySelector(
+                    ".remove-saved"
+                )
                 .addEventListener(
                     "click",
                     () => {
@@ -1050,14 +1130,13 @@ function renderSavedProducts() {
 
 
 /* ==========================================
-   HEART BUTTONS
+   HEART / SAVED BUTTONS
 ========================================== */
 
 productCards.forEach(card => {
 
     const heart =
         card.querySelector(".heart");
-
 
     if (!heart) {
         return;
@@ -1073,32 +1152,29 @@ productCards.forEach(card => {
 
             const name =
                 card
-                    .querySelector("h3")
+                    .querySelector(
+                        "h3"
+                    )
                     .textContent;
 
 
             if (
-                savedProducts.includes(name)
+                savedProducts.includes(
+                    name
+                )
             ) {
 
                 savedProducts =
                     savedProducts.filter(
                         item =>
-                            item !== name
+                            item !==
+                            name
                     );
-
-                showNotification(
-                    "Removed from saved items"
-                );
 
             } else {
 
                 savedProducts.push(
                     name
-                );
-
-                showNotification(
-                    "Added to saved items"
                 );
 
             }
@@ -1137,13 +1213,15 @@ function updateCheckoutTotals() {
 
 
     const delivery =
-        deliveryLocation.value === "outside"
+        deliveryLocation.value ===
+        "outside"
             ? 10
             : 0;
 
 
     const total =
-        subtotal + delivery;
+        subtotal +
+        delivery;
 
 
     checkoutSubtotal.textContent =
@@ -1160,27 +1238,40 @@ function updateCheckoutTotals() {
 
     /* CASH ON DELIVERY */
 
-    if (total <= 100) {
-
-        codOption.disabled = false;
-
-        codMessage.style.display =
-            "block";
-
-    } else {
-
-        codOption.disabled = true;
-
-        codMessage.style.display =
-            "none";
-
+    if (
+        codOption &&
+        codMessage &&
+        paymentMethod
+    ) {
 
         if (
-            paymentMethod.value ===
-            "cash-on-delivery"
+            total <= 100
         ) {
 
-            paymentMethod.value = "";
+            codOption.disabled =
+                false;
+
+            codMessage.style.display =
+                "block";
+
+        } else {
+
+            codOption.disabled =
+                true;
+
+            codMessage.style.display =
+                "none";
+
+
+            if (
+                paymentMethod.value ===
+                "cash-on-delivery"
+            ) {
+
+                paymentMethod.value =
+                    "";
+
+            }
 
         }
 
@@ -1200,7 +1291,7 @@ if (deliveryLocation) {
 
 
 /* ==========================================
-   PAYMENT METHOD
+   PAYMENT CHECK
 ========================================== */
 
 if (paymentMethod) {
@@ -1230,7 +1321,8 @@ if (paymentMethod) {
                 );
 
 
-                paymentMethod.value = "";
+                paymentMethod.value =
+                    "";
 
             }
 
@@ -1246,12 +1338,11 @@ if (paymentMethod) {
 
 function openCheckout() {
 
-    /* IMPORTANT:
-       Update everything BEFORE opening.
-       This makes the popup open immediately.
-    */
+    /* CHECK CART */
 
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
         showNotification(
             "Your bag is empty."
@@ -1262,12 +1353,14 @@ function openCheckout() {
     }
 
 
-    updateCheckoutTotals();
-
-
     /* CLOSE CART */
 
     closeCartPanel();
+
+
+    /* UPDATE TOTALS */
+
+    updateCheckoutTotals();
 
 
     /* OPEN CHECKOUT */
@@ -1296,7 +1389,7 @@ if (checkoutButton) {
 
     checkoutButton.addEventListener(
         "click",
-        event => {
+        function(event) {
 
             event.preventDefault();
 
@@ -1318,7 +1411,7 @@ if (closeCheckout) {
 
     closeCheckout.addEventListener(
         "click",
-        event => {
+        function(event) {
 
             event.preventDefault();
 
@@ -1343,7 +1436,9 @@ if (checkoutForm) {
             event.preventDefault();
 
 
-            if (cart.length === 0) {
+            if (
+                cart.length === 0
+            ) {
 
                 showNotification(
                     "Your bag is empty."
@@ -1356,14 +1451,18 @@ if (checkoutForm) {
 
             const name =
                 document
-                    .querySelector("#customer-name")
+                    .querySelector(
+                        "#customer-name"
+                    )
                     .value
                     .trim();
 
 
             const phone =
                 document
-                    .querySelector("#customer-phone")
+                    .querySelector(
+                        "#customer-phone"
+                    )
                     .value
                     .trim();
 
@@ -1374,7 +1473,9 @@ if (checkoutForm) {
 
             const address =
                 document
-                    .querySelector("#customer-address")
+                    .querySelector(
+                        "#customer-address"
+                    )
                     .value
                     .trim();
 
@@ -1399,7 +1500,9 @@ if (checkoutForm) {
             }
 
 
-            if (!selectedPayment) {
+            if (
+                !selectedPayment
+            ) {
 
                 showNotification(
                     "Please select a payment method."
@@ -1421,7 +1524,8 @@ if (checkoutForm) {
 
 
             const total =
-                subtotal + delivery;
+                subtotal +
+                delivery;
 
 
             if (
@@ -1435,7 +1539,8 @@ if (checkoutForm) {
                 );
 
 
-                paymentMethod.value = "";
+                paymentMethod.value =
+                    "";
 
                 return;
 
@@ -1462,10 +1567,12 @@ if (checkoutForm) {
             message +=
                 "CUSTOMER DETAILS\n";
 
+
             message +=
                 "Name: " +
                 name +
                 "\n";
+
 
             message +=
                 "Phone: " +
@@ -1550,7 +1657,6 @@ if (checkoutForm) {
 
             /* ======================================
                WHATSAPP NUMBER
-               REPLACE THIS
             ====================================== */
 
             const whatsappNumber =
@@ -1561,7 +1667,9 @@ if (checkoutForm) {
                 "https://wa.me/" +
                 whatsappNumber +
                 "?text=" +
-                encodeURIComponent(message);
+                encodeURIComponent(
+                    message
+                );
 
 
             window.open(
@@ -1570,7 +1678,9 @@ if (checkoutForm) {
             );
 
 
-            /* CLEAR CART */
+            /* ======================================
+               CLEAR CART
+            ====================================== */
 
             cart = [];
 
