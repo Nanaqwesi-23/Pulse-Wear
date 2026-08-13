@@ -1418,8 +1418,7 @@ if (checkoutForm) {
                 "\n\n";
 
 
-            message +=
-                "Thank you for shopping with PULSE Wear!";
+      
 
 
             /* ======================================
