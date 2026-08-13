@@ -1540,7 +1540,7 @@ checkoutForm.addEventListener(
         ====================================== */
 
         const whatsappNumber =
-            "233XXXXXXXXX";
+            "233500309758";
 
 
         const whatsappURL =
