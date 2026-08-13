@@ -1,5 +1,6 @@
 /* ==========================================
    PULSE WEAR JAVASCRIPT
+   REVISED PROFESSIONAL VERSION
 ========================================== */
 
 
@@ -15,119 +16,6 @@ let savedProducts =
 
 const productCards =
     document.querySelectorAll(".product-card");
-
-
-/* ==========================================
-   CUSTOM PULSE NOTIFICATION
-========================================== */
-
-function showNotification(message) {
-
-    let notification =
-        document.querySelector(".pulse-notification");
-
-
-    if (!notification) {
-
-        notification =
-            document.createElement("div");
-
-        notification.className =
-            "pulse-notification";
-
-
-        /* POSITION */
-
-        notification.style.position =
-            "fixed";
-
-        notification.style.left =
-            "50%";
-
-        notification.style.bottom =
-            "95px";
-
-
-        /* APPEARANCE */
-
-        notification.style.background =
-            "#111";
-
-        notification.style.color =
-            "#fff";
-
-        notification.style.padding =
-            "14px 24px";
-
-        notification.style.borderRadius =
-            "6px";
-
-        notification.style.fontSize =
-            "14px";
-
-        notification.style.fontWeight =
-            "600";
-
-        notification.style.zIndex =
-            "99999";
-
-        notification.style.textAlign =
-            "center";
-
-        notification.style.maxWidth =
-            "calc(100% - 30px)";
-
-
-        /* ANIMATION */
-
-        notification.style.opacity =
-            "0";
-
-        notification.style.transform =
-            "translateX(-50%) translateY(20px)";
-
-        notification.style.transition =
-            "opacity 0.25s ease, transform 0.25s ease";
-
-        notification.style.pointerEvents =
-            "none";
-
-
-        document.body.appendChild(
-            notification
-        );
-
-    }
-
-
-    notification.textContent =
-        message;
-
-
-    notification.style.opacity =
-        "1";
-
-    notification.style.transform =
-        "translateX(-50%) translateY(0)";
-
-
-    clearTimeout(
-        window.pulseNotificationTimer
-    );
-
-
-    window.pulseNotificationTimer =
-        setTimeout(() => {
-
-            notification.style.opacity =
-                "0";
-
-            notification.style.transform =
-                "translateX(-50%) translateY(20px)";
-
-        }, 2500);
-
-}
 
 
 /* ==========================================
@@ -190,6 +78,55 @@ const codMessage =
 
 
 /* ==========================================
+   PULSE WEAR NOTIFICATION
+========================================== */
+
+function showNotification(message) {
+
+    let notification =
+        document.querySelector(".pulse-notification");
+
+    if (!notification) {
+
+        notification =
+            document.createElement("div");
+
+        notification.className =
+            "pulse-notification";
+
+        document.body.appendChild(
+            notification
+        );
+    }
+
+
+    notification.textContent =
+        message;
+
+
+    notification.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        notification.notificationTimer
+    );
+
+
+    notification.notificationTimer =
+        setTimeout(() => {
+
+            notification.classList.remove(
+                "show"
+            );
+
+        }, 2500);
+
+}
+
+
+/* ==========================================
    MENU
 ========================================== */
 
@@ -224,22 +161,34 @@ function closeMobileMenu() {
 }
 
 
-menuButton.addEventListener(
-    "click",
-    openMenu
-);
+if (menuButton) {
+
+    menuButton.addEventListener(
+        "click",
+        openMenu
+    );
+
+}
 
 
-closeMenu.addEventListener(
-    "click",
-    closeMobileMenu
-);
+if (closeMenu) {
+
+    closeMenu.addEventListener(
+        "click",
+        closeMobileMenu
+    );
+
+}
 
 
-menuOverlay.addEventListener(
-    "click",
-    closeMobileMenu
-);
+if (menuOverlay) {
+
+    menuOverlay.addEventListener(
+        "click",
+        closeMobileMenu
+    );
+
+}
 
 
 document
@@ -271,64 +220,76 @@ const closeSearch =
     document.querySelector("#close-search");
 
 
-searchButton.addEventListener(
-    "click",
-    () => {
+if (searchButton) {
 
-        searchBox.classList.add("open");
+    searchButton.addEventListener(
+        "click",
+        () => {
 
-        searchInput.focus();
+            searchBox.classList.add("open");
 
-    }
-);
+            searchInput.focus();
 
+        }
+    );
 
-closeSearch.addEventListener(
-    "click",
-    () => {
-
-        searchBox.classList.remove("open");
-
-        searchInput.value = "";
-
-        productCards.forEach(card => {
-
-            card.style.display = "";
-
-        });
-
-    }
-);
+}
 
 
-searchInput.addEventListener(
-    "input",
-    () => {
+if (closeSearch) {
 
-        const term =
-            searchInput.value
-                .toLowerCase()
-                .trim();
+    closeSearch.addEventListener(
+        "click",
+        () => {
+
+            searchBox.classList.remove("open");
+
+            searchInput.value = "";
+
+            productCards.forEach(card => {
+
+                card.style.display = "";
+
+            });
+
+        }
+    );
+
+}
 
 
-        productCards.forEach(card => {
+if (searchInput) {
 
-            const name =
-                card
-                    .querySelector("h3")
-                    .textContent
-                    .toLowerCase();
+    searchInput.addEventListener(
+        "input",
+        () => {
+
+            const term =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
 
 
-            card.style.display =
-                name.includes(term)
-                    ? ""
-                    : "none";
+            productCards.forEach(card => {
 
-        });
+                const name =
+                    card
+                        .querySelector("h3")
+                        .textContent
+                        .toLowerCase();
 
-    }
-);
+
+                card.style.display =
+                    name.includes(term)
+                        ? ""
+                        : "none";
+
+            });
+
+        }
+    );
+
+}
 
 
 /* ==========================================
@@ -374,10 +335,7 @@ let selectedSize = null;
 
 function getProductSizes(card) {
 
-    if (
-        card.dataset.sizeType ===
-        "shoes"
-    ) {
+    if (card.dataset.sizeType === "shoes") {
 
         return [
             "38",
@@ -391,7 +349,6 @@ function getProductSizes(card) {
         ];
 
     }
-
 
     return [
         "S",
@@ -439,44 +396,34 @@ function openProductModal(card) {
     selectedSize = null;
 
 
-    modalImage.src =
-        image;
+    modalImage.src = image;
 
-    modalImage.alt =
-        name;
+    modalImage.alt = name;
 
-    modalName.textContent =
-        name;
+    modalName.textContent = name;
 
-    modalPrice.textContent =
-        priceText;
-
+    modalPrice.textContent = priceText;
 
     selectedSizeText.textContent =
         "Select a size";
 
 
-    modalSizes.innerHTML =
-        "";
+    modalSizes.innerHTML = "";
 
 
     getProductSizes(card)
         .forEach(size => {
 
             const button =
-                document.createElement(
-                    "button"
-                );
+                document.createElement("button");
 
 
-            button.type =
-                "button";
+            button.type = "button";
 
             button.className =
                 "size-option";
 
-            button.textContent =
-                size;
+            button.textContent = size;
 
 
             button.addEventListener(
@@ -484,9 +431,7 @@ function openProductModal(card) {
                 () => {
 
                     document
-                        .querySelectorAll(
-                            ".size-option"
-                        )
+                        .querySelectorAll(".size-option")
                         .forEach(item => {
 
                             item.classList.remove(
@@ -501,8 +446,7 @@ function openProductModal(card) {
                     );
 
 
-                    selectedSize =
-                        size;
+                    selectedSize = size;
 
 
                     selectedSizeText.textContent =
@@ -512,20 +456,14 @@ function openProductModal(card) {
             );
 
 
-            modalSizes.appendChild(
-                button
-            );
+            modalSizes.appendChild(button);
 
         });
 
 
-    productModal.classList.add(
-        "open"
-    );
+    productModal.classList.add("open");
 
-    productModalOverlay.classList.add(
-        "open"
-    );
+    productModalOverlay.classList.add("open");
 
 }
 
@@ -536,22 +474,26 @@ function openProductModal(card) {
 
 function closeProductModalWindow() {
 
-    productModal.classList.remove(
-        "open"
-    );
+    productModal.classList.remove("open");
 
-    productModalOverlay.classList.remove(
-        "open"
-    );
+    productModalOverlay.classList.remove("open");
 
 }
 
 
+/* ==========================================
+   PRODUCT IMAGE CLICK
+========================================== */
+
 productCards.forEach(card => {
 
-    card
-        .querySelector(".product-image")
-        .addEventListener(
+    const image =
+        card.querySelector(".product-image");
+
+
+    if (image) {
+
+        image.addEventListener(
             "click",
             event => {
 
@@ -569,116 +511,130 @@ productCards.forEach(card => {
             }
         );
 
+    }
+
 });
 
 
-closeProductModal.addEventListener(
-    "click",
-    closeProductModalWindow
-);
+if (closeProductModal) {
+
+    closeProductModal.addEventListener(
+        "click",
+        closeProductModalWindow
+    );
+
+}
 
 
-productModalOverlay.addEventListener(
-    "click",
-    closeProductModalWindow
-);
+if (productModalOverlay) {
+
+    productModalOverlay.addEventListener(
+        "click",
+        closeProductModalWindow
+    );
+
+}
 
 
 /* ==========================================
    ADD TO CART
 ========================================== */
 
-modalAddToCart.addEventListener(
-    "click",
-    () => {
+if (modalAddToCart) {
 
-        if (!selectedProduct) {
+    modalAddToCart.addEventListener(
+        "click",
+        event => {
 
-            return;
-
-        }
+            event.preventDefault();
 
 
-        /* SIZE CHECK */
+            if (!selectedProduct) {
 
-        if (!selectedSize) {
+                return;
+
+            }
+
+
+            /* NO SIZE SELECTED */
+
+            if (!selectedSize) {
+
+                showNotification(
+                    "Please select a size first."
+                );
+
+                return;
+
+            }
+
+
+            const existing =
+                cart.find(item =>
+
+                    item.name ===
+                        selectedProduct.name &&
+
+                    item.size ===
+                        selectedSize
+
+                );
+
+
+            if (existing) {
+
+                existing.quantity++;
+
+            } else {
+
+                cart.push({
+
+                    name:
+                        selectedProduct.name,
+
+                    price:
+                        selectedProduct.price,
+
+                    image:
+                        selectedProduct.image,
+
+                    size:
+                        selectedSize,
+
+                    quantity: 1
+
+                });
+
+            }
+
+
+            saveCart();
+
+            updateCart();
+
+
+            closeProductModalWindow();
+
+
+            /* CLEAN PULSE NOTIFICATION */
 
             showNotification(
-                "Please select a size first."
-            );
-
-            return;
-
-        }
-
-
-        const existing =
-            cart.find(item =>
-
-                item.name ===
-                    selectedProduct.name &&
-
-                item.size ===
-                    selectedSize
-
+                "Added to cart"
             );
 
 
-        if (existing) {
+            selectedProduct = null;
 
-            existing.quantity++;
-
-        } else {
-
-            cart.push({
-
-                name:
-                    selectedProduct.name,
-
-                price:
-                    selectedProduct.price,
-
-                image:
-                    selectedProduct.image,
-
-                size:
-                    selectedSize,
-
-                quantity:
-                    1
-
-            });
+            selectedSize = null;
 
         }
+    );
 
-
-        saveCart();
-
-        updateCart();
-
-
-        closeProductModalWindow();
-
-
-        /* SUCCESS MESSAGE */
-
-        showNotification(
-            "Added to cart"
-        );
-
-
-        selectedProduct =
-            null;
-
-        selectedSize =
-            null;
-
-    }
-);
+}
 
 
 /* ==========================================
-   CART FUNCTIONS
+   CART STORAGE
 ========================================== */
 
 function saveCart() {
@@ -690,6 +646,10 @@ function saveCart() {
 
 }
 
+
+/* ==========================================
+   CART SUBTOTAL
+========================================== */
 
 function getCartSubtotal() {
 
@@ -708,15 +668,21 @@ function getCartSubtotal() {
 }
 
 
+/* ==========================================
+   UPDATE CART
+========================================== */
+
 function updateCart() {
 
-    cartItemsContainer.innerHTML =
-        "";
+    if (!cartItemsContainer) {
+        return;
+    }
 
 
-    if (
-        cart.length === 0
-    ) {
+    cartItemsContainer.innerHTML = "";
+
+
+    if (cart.length === 0) {
 
         cartItemsContainer.innerHTML =
             `
@@ -731,9 +697,7 @@ function updateCart() {
             (item, index) => {
 
                 const element =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
 
                 element.className =
@@ -786,9 +750,7 @@ function updateCart() {
 
 
     document
-        .querySelectorAll(
-            ".remove-cart-item"
-        )
+        .querySelectorAll(".remove-cart-item")
         .forEach(button => {
 
             button.addEventListener(
@@ -827,62 +789,74 @@ function updateCart() {
         );
 
 
-    cartCount.textContent =
-        quantity;
+    if (cartCount) {
+
+        cartCount.textContent =
+            quantity;
+
+    }
 
 
-    cartTotal.textContent =
-        `GH₵${getCartSubtotal().toFixed(2)}`;
+    if (cartTotal) {
+
+        cartTotal.textContent =
+            `GH₵${getCartSubtotal().toFixed(2)}`;
+
+    }
 
 }
 
 
 /* ==========================================
-   OPEN / CLOSE CART
+   OPEN CART
 ========================================== */
 
 function openCart() {
 
-    cartPanel.classList.add(
-        "open"
-    );
+    cartPanel.classList.add("open");
 
-    cartOverlay.classList.add(
-        "open"
-    );
+    cartOverlay.classList.add("open");
 
 }
 
 
 function closeCartPanel() {
 
-    cartPanel.classList.remove(
-        "open"
-    );
+    cartPanel.classList.remove("open");
 
-    cartOverlay.classList.remove(
-        "open"
+    cartOverlay.classList.remove("open");
+
+}
+
+
+if (cartButton) {
+
+    cartButton.addEventListener(
+        "click",
+        openCart
     );
 
 }
 
 
-cartButton.addEventListener(
-    "click",
-    openCart
-);
+if (closeCart) {
+
+    closeCart.addEventListener(
+        "click",
+        closeCartPanel
+    );
+
+}
 
 
-closeCart.addEventListener(
-    "click",
-    closeCartPanel
-);
+if (cartOverlay) {
 
+    cartOverlay.addEventListener(
+        "click",
+        closeCartPanel
+    );
 
-cartOverlay.addEventListener(
-    "click",
-    closeCartPanel
-);
+}
 
 
 /* ==========================================
@@ -909,17 +883,19 @@ function updateSavedProducts() {
                 .textContent;
 
         const heart =
-            card.querySelector(
-                ".heart"
-            );
+            card.querySelector(".heart");
+
+
+        if (!heart) {
+            return;
+        }
 
 
         if (
             savedProducts.includes(name)
         ) {
 
-            heart.textContent =
-                "♥";
+            heart.textContent = "♥";
 
             heart.classList.add(
                 "saved"
@@ -927,8 +903,7 @@ function updateSavedProducts() {
 
         } else {
 
-            heart.textContent =
-                "♡";
+            heart.textContent = "♡";
 
             heart.classList.remove(
                 "saved"
@@ -944,16 +919,22 @@ function updateSavedProducts() {
 }
 
 
+/* ==========================================
+   RENDER SAVED PRODUCTS
+========================================== */
+
 function renderSavedProducts() {
 
     const savedGrid =
-        document.querySelector(
-            ".saved-grid"
-        );
+        document.querySelector(".saved-grid");
 
 
-    savedGrid.innerHTML =
-        "";
+    if (!savedGrid) {
+        return;
+    }
+
+
+    savedGrid.innerHTML = "";
 
 
     if (
@@ -980,41 +961,27 @@ function renderSavedProducts() {
                     .find(
                         item =>
                             item
-                                .querySelector(
-                                    "h3"
-                                )
+                                .querySelector("h3")
                                 .textContent ===
                             productName
                     );
 
 
             if (!card) {
-
                 return;
-
             }
 
 
             const image =
-                card
-                    .querySelector(
-                        "img"
-                    )
-                    .src;
+                card.querySelector("img").src;
 
 
             const price =
-                card
-                    .querySelector(
-                        ".price"
-                    )
-                    .textContent;
+                card.querySelector(".price").textContent;
 
 
             const savedCard =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
 
             savedCard.className =
@@ -1056,9 +1023,7 @@ function renderSavedProducts() {
 
 
             savedCard
-                .querySelector(
-                    ".remove-saved"
-                )
+                .querySelector(".remove-saved")
                 .addEventListener(
                     "click",
                     () => {
@@ -1085,56 +1050,66 @@ function renderSavedProducts() {
 
 
 /* ==========================================
-   HEART / SAVED BUTTONS
+   HEART BUTTONS
 ========================================== */
 
 productCards.forEach(card => {
 
-    card
-        .querySelector(".heart")
-        .addEventListener(
-            "click",
-            event => {
-
-                event.stopPropagation();
+    const heart =
+        card.querySelector(".heart");
 
 
-                const name =
-                    card
-                        .querySelector(
-                            "h3"
-                        )
-                        .textContent;
+    if (!heart) {
+        return;
+    }
 
 
-                if (
-                    savedProducts.includes(
-                        name
-                    )
-                ) {
+    heart.addEventListener(
+        "click",
+        event => {
 
-                    savedProducts =
-                        savedProducts.filter(
-                            item =>
-                                item !==
-                                name
-                        );
+            event.stopPropagation();
 
-                } else {
 
-                    savedProducts.push(
-                        name
+            const name =
+                card
+                    .querySelector("h3")
+                    .textContent;
+
+
+            if (
+                savedProducts.includes(name)
+            ) {
+
+                savedProducts =
+                    savedProducts.filter(
+                        item =>
+                            item !== name
                     );
 
-                }
+                showNotification(
+                    "Removed from saved items"
+                );
 
+            } else {
 
-                saveSavedProducts();
+                savedProducts.push(
+                    name
+                );
 
-                updateSavedProducts();
+                showNotification(
+                    "Added to saved items"
+                );
 
             }
-        );
+
+
+            saveSavedProducts();
+
+            updateSavedProducts();
+
+        }
+    );
 
 });
 
@@ -1145,20 +1120,30 @@ productCards.forEach(card => {
 
 function updateCheckoutTotals() {
 
+    if (
+        !deliveryLocation ||
+        !checkoutSubtotal ||
+        !checkoutDelivery ||
+        !checkoutTotal
+    ) {
+
+        return;
+
+    }
+
+
     const subtotal =
         getCartSubtotal();
 
 
     const delivery =
-        deliveryLocation.value ===
-        "outside"
+        deliveryLocation.value === "outside"
             ? 10
             : 0;
 
 
     const total =
-        subtotal +
-        delivery;
+        subtotal + delivery;
 
 
     checkoutSubtotal.textContent =
@@ -1175,20 +1160,16 @@ function updateCheckoutTotals() {
 
     /* CASH ON DELIVERY */
 
-    if (
-        total <= 100
-    ) {
+    if (total <= 100) {
 
-        codOption.disabled =
-            false;
+        codOption.disabled = false;
 
         codMessage.style.display =
             "block";
 
     } else {
 
-        codOption.disabled =
-            true;
+        codOption.disabled = true;
 
         codMessage.style.display =
             "none";
@@ -1199,8 +1180,7 @@ function updateCheckoutTotals() {
             "cash-on-delivery"
         ) {
 
-            paymentMethod.value =
-                "";
+            paymentMethod.value = "";
 
         }
 
@@ -1209,48 +1189,55 @@ function updateCheckoutTotals() {
 }
 
 
-deliveryLocation.addEventListener(
-    "change",
-    updateCheckoutTotals
-);
+if (deliveryLocation) {
+
+    deliveryLocation.addEventListener(
+        "change",
+        updateCheckoutTotals
+    );
+
+}
 
 
 /* ==========================================
-   PAYMENT CHECK
+   PAYMENT METHOD
 ========================================== */
 
-paymentMethod.addEventListener(
-    "change",
-    () => {
+if (paymentMethod) {
 
-        const total =
-            getCartSubtotal() +
-            (
-                deliveryLocation.value ===
-                "outside"
-                    ? 10
-                    : 0
-            );
+    paymentMethod.addEventListener(
+        "change",
+        () => {
 
-
-        if (
-            paymentMethod.value ===
-                "cash-on-delivery" &&
-            total > 100
-        ) {
-
-            showNotification(
-                "Cash on Delivery is only available for orders of GH₵100 or below."
-            );
+            const total =
+                getCartSubtotal() +
+                (
+                    deliveryLocation.value ===
+                    "outside"
+                        ? 10
+                        : 0
+                );
 
 
-            paymentMethod.value =
-                "";
+            if (
+                paymentMethod.value ===
+                    "cash-on-delivery" &&
+                total > 100
+            ) {
+
+                showNotification(
+                    "Cash on Delivery is only available for orders of GH₵100 or below."
+                );
+
+
+                paymentMethod.value = "";
+
+            }
 
         }
+    );
 
-    }
-);
+}
 
 
 /* ==========================================
@@ -1259,9 +1246,12 @@ paymentMethod.addEventListener(
 
 function openCheckout() {
 
-    if (
-        cart.length === 0
-    ) {
+    /* IMPORTANT:
+       Update everything BEFORE opening.
+       This makes the popup open immediately.
+    */
+
+    if (cart.length === 0) {
 
         showNotification(
             "Your bag is empty."
@@ -1272,10 +1262,15 @@ function openCheckout() {
     }
 
 
-    closeCartPanel();
-
     updateCheckoutTotals();
 
+
+    /* CLOSE CART */
+
+    closeCartPanel();
+
+
+    /* OPEN CHECKOUT */
 
     checkoutPanel.classList.add(
         "open"
@@ -1293,287 +1288,306 @@ function closeCheckoutPanel() {
 }
 
 
-checkoutButton.addEventListener(
-    "click",
-    openCheckout
-);
+/* ==========================================
+   CHECKOUT BUTTON
+========================================== */
+
+if (checkoutButton) {
+
+    checkoutButton.addEventListener(
+        "click",
+        event => {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            openCheckout();
+
+        }
+    );
+
+}
 
 
-closeCheckout.addEventListener(
-    "click",
-    closeCheckoutPanel
-);
+/* ==========================================
+   CLOSE CHECKOUT
+========================================== */
+
+if (closeCheckout) {
+
+    closeCheckout.addEventListener(
+        "click",
+        event => {
+
+            event.preventDefault();
+
+            closeCheckoutPanel();
+
+        }
+    );
+
+}
 
 
 /* ==========================================
    WHATSAPP ORDER
 ========================================== */
 
-checkoutForm.addEventListener(
-    "submit",
-    event => {
+if (checkoutForm) {
 
-        event.preventDefault();
+    checkoutForm.addEventListener(
+        "submit",
+        event => {
 
-
-        if (
-            cart.length === 0
-        ) {
-
-            showNotification(
-                "Your bag is empty."
-            );
-
-            return;
-
-        }
+            event.preventDefault();
 
 
-        const name =
-            document
-                .querySelector(
-                    "#customer-name"
-                )
-                .value
-                .trim();
+            if (cart.length === 0) {
+
+                showNotification(
+                    "Your bag is empty."
+                );
+
+                return;
+
+            }
 
 
-        const phone =
-            document
-                .querySelector(
-                    "#customer-phone"
-                )
-                .value
-                .trim();
+            const name =
+                document
+                    .querySelector("#customer-name")
+                    .value
+                    .trim();
 
 
-        const location =
-            deliveryLocation.value;
+            const phone =
+                document
+                    .querySelector("#customer-phone")
+                    .value
+                    .trim();
 
 
-        const address =
-            document
-                .querySelector(
-                    "#customer-address"
-                )
-                .value
-                .trim();
+            const location =
+                deliveryLocation.value;
 
 
-        const selectedPayment =
-            paymentMethod.value;
+            const address =
+                document
+                    .querySelector("#customer-address")
+                    .value
+                    .trim();
 
 
-        if (
-            !name ||
-            !phone ||
-            !location ||
-            !address
-        ) {
-
-            showNotification(
-                "Please complete all delivery details."
-            );
-
-            return;
-
-        }
+            const selectedPayment =
+                paymentMethod.value;
 
 
-        if (
-            !selectedPayment
-        ) {
+            if (
+                !name ||
+                !phone ||
+                !location ||
+                !address
+            ) {
 
-            showNotification(
-                "Please select a payment method."
-            );
+                showNotification(
+                    "Please complete all delivery details."
+                );
 
-            return;
+                return;
 
-        }
-
-
-        const subtotal =
-            getCartSubtotal();
-
-
-        const delivery =
-            location === "outside"
-                ? 10
-                : 0;
+            }
 
 
-        const total =
-            subtotal +
-            delivery;
+            if (!selectedPayment) {
+
+                showNotification(
+                    "Please select a payment method."
+                );
+
+                return;
+
+            }
 
 
-        if (
-            selectedPayment ===
-                "cash-on-delivery" &&
-            total > 100
-        ) {
-
-            showNotification(
-                "Cash on Delivery is only available for orders of GH₵100 or below."
-            );
+            const subtotal =
+                getCartSubtotal();
 
 
-            paymentMethod.value =
-                "";
-
-            return;
-
-        }
+            const delivery =
+                location === "outside"
+                    ? 10
+                    : 0;
 
 
-        const paymentName =
-            selectedPayment ===
-                "cash-on-delivery"
-
-                ? "Cash on Delivery"
-
-                : "Mobile Money";
+            const total =
+                subtotal + delivery;
 
 
-        /* ======================================
-           WHATSAPP MESSAGE
-        ====================================== */
+            if (
+                selectedPayment ===
+                    "cash-on-delivery" &&
+                total > 100
+            ) {
 
-        let message =
-            "PULSE WEAR ORDER\n\n";
-
-
-        message +=
-            "CUSTOMER DETAILS\n";
-
-
-        message +=
-            "Name: " +
-            name +
-            "\n";
+                showNotification(
+                    "Cash on Delivery is only available for orders of GH₵100 or below."
+                );
 
 
-        message +=
-            "Phone: " +
-            phone +
-            "\n\n";
+                paymentMethod.value = "";
+
+                return;
+
+            }
 
 
-        message +=
-            "ORDER DETAILS\n";
+            const paymentName =
+                selectedPayment ===
+                    "cash-on-delivery"
+
+                    ? "Cash on Delivery"
+
+                    : "Mobile Money";
 
 
-        cart.forEach(item => {
+            /* ======================================
+               WHATSAPP MESSAGE
+            ====================================== */
 
-            const itemTotal =
-                item.price *
-                item.quantity;
+            let message =
+                "PULSE WEAR ORDER\n\n";
 
 
             message +=
-                item.name +
-                " - Size " +
-                item.size +
-                " - Quantity " +
-                item.quantity +
-                " - GH₵" +
-                itemTotal.toFixed(2) +
+                "CUSTOMER DETAILS\n";
+
+            message +=
+                "Name: " +
+                name +
                 "\n";
 
-        });
+            message +=
+                "Phone: " +
+                phone +
+                "\n\n";
 
 
-        message +=
-            "\nDELIVERY DETAILS\n";
+            message +=
+                "ORDER DETAILS\n";
 
 
-        message +=
-            "Location: " +
-            (
-                location === "campus"
-                    ? "COHK Campus"
-                    : "Outside COHK Campus"
-            ) +
-            "\n";
+            cart.forEach(item => {
+
+                const itemTotal =
+                    item.price *
+                    item.quantity;
 
 
-        message +=
-            "Address: " +
-            address +
-            "\n";
+                message +=
+                    item.name +
+                    " - Size " +
+                    item.size +
+                    " - Quantity " +
+                    item.quantity +
+                    " - GH₵" +
+                    itemTotal.toFixed(2) +
+                    "\n";
+
+            });
 
 
-        message +=
-            "Delivery Fee: GH₵" +
-            delivery.toFixed(2) +
-            "\n\n";
+            message +=
+                "\nDELIVERY DETAILS\n";
 
 
-        message +=
-            "PAYMENT METHOD\n";
+            message +=
+                "Location: " +
+                (
+                    location === "campus"
+                        ? "COHK Campus"
+                        : "Outside COHK Campus"
+                ) +
+                "\n";
 
 
-        message +=
-            paymentName +
-            "\n\n";
+            message +=
+                "Address: " +
+                address +
+                "\n";
 
 
-        message +=
-            "Subtotal: GH₵" +
-            subtotal.toFixed(2) +
-            "\n";
+            message +=
+                "Delivery Fee: GH₵" +
+                delivery.toFixed(2) +
+                "\n\n";
 
 
-        message +=
-            "TOTAL: GH₵" +
-            total.toFixed(2) +
-            "\n\n";
+            message +=
+                "PAYMENT METHOD\n";
 
 
-        message +=
-            "Thank you for shopping with PULSE Wear!";
+            message +=
+                paymentName +
+                "\n\n";
 
 
-        /* ======================================
-           WHATSAPP NUMBER
-        ====================================== */
-
-        const whatsappNumber =
-            "233500309758";
+            message +=
+                "Subtotal: GH₵" +
+                subtotal.toFixed(2) +
+                "\n";
 
 
-        const whatsappURL =
-            "https://wa.me/" +
-            whatsappNumber +
-            "?text=" +
-            encodeURIComponent(
-                message
+            message +=
+                "TOTAL: GH₵" +
+                total.toFixed(2) +
+                "\n\n";
+
+
+            message +=
+                "Thank you for shopping with PULSE Wear!";
+
+
+            /* ======================================
+               WHATSAPP NUMBER
+               REPLACE THIS
+            ====================================== */
+
+            const whatsappNumber =
+                "233XXXXXXXXX";
+
+
+            const whatsappURL =
+                "https://wa.me/" +
+                whatsappNumber +
+                "?text=" +
+                encodeURIComponent(message);
+
+
+            window.open(
+                whatsappURL,
+                "_blank"
             );
 
 
-        window.open(
-            whatsappURL,
-            "_blank"
-        );
+            /* CLEAR CART */
 
+            cart = [];
 
-        /* CLEAR CART */
+            saveCart();
 
-        cart = [];
+            updateCart();
 
-        saveCart();
+            checkoutForm.reset();
 
-        updateCart();
+            updateCheckoutTotals();
 
-        checkoutForm.reset();
+            closeCheckoutPanel();
 
-        updateCheckoutTotals();
+        }
+    );
 
-        closeCheckoutPanel();
-
-    }
-);
+}
 
 
 /* ==========================================
@@ -1586,16 +1600,20 @@ const bottomBag =
     );
 
 
-bottomBag.addEventListener(
-    "click",
-    event => {
+if (bottomBag) {
 
-        event.preventDefault();
+    bottomBag.addEventListener(
+        "click",
+        event => {
 
-        openCart();
+            event.preventDefault();
 
-    }
-);
+            openCart();
+
+        }
+    );
+
+}
 
 
 /* ==========================================
