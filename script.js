@@ -1,6 +1,6 @@
 /* ==========================================
    PULSE WEAR JAVASCRIPT
-   ========================================== */
+========================================== */
 
 
 /* ==========================================
@@ -18,7 +18,7 @@ const productCards =
 
 
 /* ==========================================
-   PULSE WEAR CUSTOM NOTIFICATION
+   CUSTOM PULSE NOTIFICATION
 ========================================== */
 
 function showNotification(message) {
@@ -26,7 +26,7 @@ function showNotification(message) {
     let notification =
         document.querySelector(".pulse-notification");
 
-    /* Create notification if it doesn't exist */
+
     if (!notification) {
 
         notification =
@@ -35,28 +35,98 @@ function showNotification(message) {
         notification.className =
             "pulse-notification";
 
+
+        /* POSITION */
+
+        notification.style.position =
+            "fixed";
+
+        notification.style.left =
+            "50%";
+
+        notification.style.bottom =
+            "95px";
+
+
+        /* APPEARANCE */
+
+        notification.style.background =
+            "#111";
+
+        notification.style.color =
+            "#fff";
+
+        notification.style.padding =
+            "14px 24px";
+
+        notification.style.borderRadius =
+            "6px";
+
+        notification.style.fontSize =
+            "14px";
+
+        notification.style.fontWeight =
+            "600";
+
+        notification.style.zIndex =
+            "99999";
+
+        notification.style.textAlign =
+            "center";
+
+        notification.style.maxWidth =
+            "calc(100% - 30px)";
+
+
+        /* ANIMATION */
+
+        notification.style.opacity =
+            "0";
+
+        notification.style.transform =
+            "translateX(-50%) translateY(20px)";
+
+        notification.style.transition =
+            "opacity 0.25s ease, transform 0.25s ease";
+
+        notification.style.pointerEvents =
+            "none";
+
+
         document.body.appendChild(
             notification
         );
+
     }
 
-    notification.textContent = message;
 
-    notification.classList.add("show");
+    notification.textContent =
+        message;
 
-    /* Remove previous timer if any */
+
+    notification.style.opacity =
+        "1";
+
+    notification.style.transform =
+        "translateX(-50%) translateY(0)";
+
+
     clearTimeout(
         window.pulseNotificationTimer
     );
 
+
     window.pulseNotificationTimer =
         setTimeout(() => {
 
-            notification.classList.remove(
-                "show"
-            );
+            notification.style.opacity =
+                "0";
+
+            notification.style.transform =
+                "translateX(-50%) translateY(20px)";
 
         }, 2500);
+
 }
 
 
@@ -141,6 +211,7 @@ function openMenu() {
     mobileMenu.classList.add("open");
 
     menuOverlay.classList.add("open");
+
 }
 
 
@@ -149,6 +220,7 @@ function closeMobileMenu() {
     mobileMenu.classList.remove("open");
 
     menuOverlay.classList.remove("open");
+
 }
 
 
@@ -157,10 +229,12 @@ menuButton.addEventListener(
     openMenu
 );
 
+
 closeMenu.addEventListener(
     "click",
     closeMobileMenu
 );
+
 
 menuOverlay.addEventListener(
     "click",
@@ -300,7 +374,10 @@ let selectedSize = null;
 
 function getProductSizes(card) {
 
-    if (card.dataset.sizeType === "shoes") {
+    if (
+        card.dataset.sizeType ===
+        "shoes"
+    ) {
 
         return [
             "38",
@@ -315,6 +392,7 @@ function getProductSizes(card) {
 
     }
 
+
     return [
         "S",
         "M",
@@ -322,6 +400,7 @@ function getProductSizes(card) {
         "XL",
         "XXL"
     ];
+
 }
 
 
@@ -360,34 +439,44 @@ function openProductModal(card) {
     selectedSize = null;
 
 
-    modalImage.src = image;
+    modalImage.src =
+        image;
 
-    modalImage.alt = name;
+    modalImage.alt =
+        name;
 
-    modalName.textContent = name;
+    modalName.textContent =
+        name;
 
-    modalPrice.textContent = priceText;
+    modalPrice.textContent =
+        priceText;
+
 
     selectedSizeText.textContent =
         "Select a size";
 
 
-    modalSizes.innerHTML = "";
+    modalSizes.innerHTML =
+        "";
 
 
     getProductSizes(card)
         .forEach(size => {
 
             const button =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
 
-            button.type = "button";
+            button.type =
+                "button";
 
             button.className =
                 "size-option";
 
-            button.textContent = size;
+            button.textContent =
+                size;
 
 
             button.addEventListener(
@@ -395,7 +484,9 @@ function openProductModal(card) {
                 () => {
 
                     document
-                        .querySelectorAll(".size-option")
+                        .querySelectorAll(
+                            ".size-option"
+                        )
                         .forEach(item => {
 
                             item.classList.remove(
@@ -410,7 +501,8 @@ function openProductModal(card) {
                     );
 
 
-                    selectedSize = size;
+                    selectedSize =
+                        size;
 
 
                     selectedSizeText.textContent =
@@ -420,14 +512,21 @@ function openProductModal(card) {
             );
 
 
-            modalSizes.appendChild(button);
+            modalSizes.appendChild(
+                button
+            );
 
         });
 
 
-    productModal.classList.add("open");
+    productModal.classList.add(
+        "open"
+    );
 
-    productModalOverlay.classList.add("open");
+    productModalOverlay.classList.add(
+        "open"
+    );
+
 }
 
 
@@ -437,9 +536,13 @@ function openProductModal(card) {
 
 function closeProductModalWindow() {
 
-    productModal.classList.remove("open");
+    productModal.classList.remove(
+        "open"
+    );
 
-    productModalOverlay.classList.remove("open");
+    productModalOverlay.classList.remove(
+        "open"
+    );
 
 }
 
@@ -474,6 +577,7 @@ closeProductModal.addEventListener(
     closeProductModalWindow
 );
 
+
 productModalOverlay.addEventListener(
     "click",
     closeProductModalWindow
@@ -494,6 +598,8 @@ modalAddToCart.addEventListener(
 
         }
 
+
+        /* SIZE CHECK */
 
         if (!selectedSize) {
 
@@ -538,45 +644,41 @@ modalAddToCart.addEventListener(
                 size:
                     selectedSize,
 
-                quantity: 1
+                quantity:
+                    1
 
             });
 
         }
 
 
-        /* SAVE CART */
-
         saveCart();
-
-
-        /* UPDATE CART */
 
         updateCart();
 
 
-        /* CLOSE PRODUCT MODAL */
-
         closeProductModalWindow();
 
 
-        /* CUSTOM PULSE NOTIFICATION */
+        /* SUCCESS MESSAGE */
 
         showNotification(
             "Added to cart"
         );
 
 
-        selectedProduct = null;
+        selectedProduct =
+            null;
 
-        selectedSize = null;
+        selectedSize =
+            null;
 
     }
 );
 
 
 /* ==========================================
-   CART
+   CART FUNCTIONS
 ========================================== */
 
 function saveCart() {
@@ -608,10 +710,13 @@ function getCartSubtotal() {
 
 function updateCart() {
 
-    cartItemsContainer.innerHTML = "";
+    cartItemsContainer.innerHTML =
+        "";
 
 
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
         cartItemsContainer.innerHTML =
             `
@@ -626,7 +731,9 @@ function updateCart() {
             (item, index) => {
 
                 const element =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
 
                 element.className =
@@ -679,7 +786,9 @@ function updateCart() {
 
 
     document
-        .querySelectorAll(".remove-cart-item")
+        .querySelectorAll(
+            ".remove-cart-item"
+        )
         .forEach(button => {
 
             button.addEventListener(
@@ -734,18 +843,26 @@ function updateCart() {
 
 function openCart() {
 
-    cartPanel.classList.add("open");
+    cartPanel.classList.add(
+        "open"
+    );
 
-    cartOverlay.classList.add("open");
+    cartOverlay.classList.add(
+        "open"
+    );
 
 }
 
 
 function closeCartPanel() {
 
-    cartPanel.classList.remove("open");
+    cartPanel.classList.remove(
+        "open"
+    );
 
-    cartOverlay.classList.remove("open");
+    cartOverlay.classList.remove(
+        "open"
+    );
 
 }
 
@@ -792,14 +909,17 @@ function updateSavedProducts() {
                 .textContent;
 
         const heart =
-            card.querySelector(".heart");
+            card.querySelector(
+                ".heart"
+            );
 
 
         if (
             savedProducts.includes(name)
         ) {
 
-            heart.textContent = "♥";
+            heart.textContent =
+                "♥";
 
             heart.classList.add(
                 "saved"
@@ -807,7 +927,8 @@ function updateSavedProducts() {
 
         } else {
 
-            heart.textContent = "♡";
+            heart.textContent =
+                "♡";
 
             heart.classList.remove(
                 "saved"
@@ -826,10 +947,13 @@ function updateSavedProducts() {
 function renderSavedProducts() {
 
     const savedGrid =
-        document.querySelector(".saved-grid");
+        document.querySelector(
+            ".saved-grid"
+        );
 
 
-    savedGrid.innerHTML = "";
+    savedGrid.innerHTML =
+        "";
 
 
     if (
@@ -856,7 +980,9 @@ function renderSavedProducts() {
                     .find(
                         item =>
                             item
-                                .querySelector("h3")
+                                .querySelector(
+                                    "h3"
+                                )
                                 .textContent ===
                             productName
                     );
@@ -870,15 +996,25 @@ function renderSavedProducts() {
 
 
             const image =
-                card.querySelector("img").src;
+                card
+                    .querySelector(
+                        "img"
+                    )
+                    .src;
 
 
             const price =
-                card.querySelector(".price").textContent;
+                card
+                    .querySelector(
+                        ".price"
+                    )
+                    .textContent;
 
 
             const savedCard =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             savedCard.className =
@@ -920,7 +1056,9 @@ function renderSavedProducts() {
 
 
             savedCard
-                .querySelector(".remove-saved")
+                .querySelector(
+                    ".remove-saved"
+                )
                 .addEventListener(
                     "click",
                     () => {
@@ -963,18 +1101,23 @@ productCards.forEach(card => {
 
                 const name =
                     card
-                        .querySelector("h3")
+                        .querySelector(
+                            "h3"
+                        )
                         .textContent;
 
 
                 if (
-                    savedProducts.includes(name)
+                    savedProducts.includes(
+                        name
+                    )
                 ) {
 
                     savedProducts =
                         savedProducts.filter(
                             item =>
-                                item !== name
+                                item !==
+                                name
                         );
 
                 } else {
@@ -1007,13 +1150,15 @@ function updateCheckoutTotals() {
 
 
     const delivery =
-        deliveryLocation.value === "outside"
+        deliveryLocation.value ===
+        "outside"
             ? 10
             : 0;
 
 
     const total =
-        subtotal + delivery;
+        subtotal +
+        delivery;
 
 
     checkoutSubtotal.textContent =
@@ -1030,16 +1175,20 @@ function updateCheckoutTotals() {
 
     /* CASH ON DELIVERY */
 
-    if (total <= 100) {
+    if (
+        total <= 100
+    ) {
 
-        codOption.disabled = false;
+        codOption.disabled =
+            false;
 
         codMessage.style.display =
             "block";
 
     } else {
 
-        codOption.disabled = true;
+        codOption.disabled =
+            true;
 
         codMessage.style.display =
             "none";
@@ -1050,7 +1199,8 @@ function updateCheckoutTotals() {
             "cash-on-delivery"
         ) {
 
-            paymentMethod.value = "";
+            paymentMethod.value =
+                "";
 
         }
 
@@ -1094,7 +1244,8 @@ paymentMethod.addEventListener(
             );
 
 
-            paymentMethod.value = "";
+            paymentMethod.value =
+                "";
 
         }
 
@@ -1108,7 +1259,9 @@ paymentMethod.addEventListener(
 
 function openCheckout() {
 
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
         showNotification(
             "Your bag is empty."
@@ -1163,7 +1316,9 @@ checkoutForm.addEventListener(
         event.preventDefault();
 
 
-        if (cart.length === 0) {
+        if (
+            cart.length === 0
+        ) {
 
             showNotification(
                 "Your bag is empty."
@@ -1176,14 +1331,18 @@ checkoutForm.addEventListener(
 
         const name =
             document
-                .querySelector("#customer-name")
+                .querySelector(
+                    "#customer-name"
+                )
                 .value
                 .trim();
 
 
         const phone =
             document
-                .querySelector("#customer-phone")
+                .querySelector(
+                    "#customer-phone"
+                )
                 .value
                 .trim();
 
@@ -1194,7 +1353,9 @@ checkoutForm.addEventListener(
 
         const address =
             document
-                .querySelector("#customer-address")
+                .querySelector(
+                    "#customer-address"
+                )
                 .value
                 .trim();
 
@@ -1219,7 +1380,9 @@ checkoutForm.addEventListener(
         }
 
 
-        if (!selectedPayment) {
+        if (
+            !selectedPayment
+        ) {
 
             showNotification(
                 "Please select a payment method."
@@ -1241,7 +1404,8 @@ checkoutForm.addEventListener(
 
 
         const total =
-            subtotal + delivery;
+            subtotal +
+            delivery;
 
 
         if (
@@ -1255,7 +1419,8 @@ checkoutForm.addEventListener(
             );
 
 
-            paymentMethod.value = "";
+            paymentMethod.value =
+                "";
 
             return;
 
@@ -1282,10 +1447,12 @@ checkoutForm.addEventListener(
         message +=
             "CUSTOMER DETAILS\n";
 
+
         message +=
             "Name: " +
             name +
             "\n";
+
 
         message +=
             "Phone: " +
@@ -1380,7 +1547,9 @@ checkoutForm.addEventListener(
             "https://wa.me/" +
             whatsappNumber +
             "?text=" +
-            encodeURIComponent(message);
+            encodeURIComponent(
+                message
+            );
 
 
         window.open(
