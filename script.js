@@ -1,6 +1,7 @@
 /* ==========================================
    PULSE WEAR JAVASCRIPT
-========================================== */
+   ========================================== */
+
 
 /* ==========================================
    STORAGE
@@ -14,6 +15,49 @@ let savedProducts =
 
 const productCards =
     document.querySelectorAll(".product-card");
+
+
+/* ==========================================
+   PULSE WEAR CUSTOM NOTIFICATION
+========================================== */
+
+function showNotification(message) {
+
+    let notification =
+        document.querySelector(".pulse-notification");
+
+    /* Create notification if it doesn't exist */
+    if (!notification) {
+
+        notification =
+            document.createElement("div");
+
+        notification.className =
+            "pulse-notification";
+
+        document.body.appendChild(
+            notification
+        );
+    }
+
+    notification.textContent = message;
+
+    notification.classList.add("show");
+
+    /* Remove previous timer if any */
+    clearTimeout(
+        window.pulseNotificationTimer
+    );
+
+    window.pulseNotificationTimer =
+        setTimeout(() => {
+
+            notification.classList.remove(
+                "show"
+            );
+
+        }, 2500);
+}
 
 
 /* ==========================================
@@ -437,74 +481,6 @@ productModalOverlay.addEventListener(
 
 
 /* ==========================================
-   ADDED TO CART NOTIFICATION
-========================================== */
-
-function showAddedToCart() {
-
-    const notification =
-        document.createElement("div");
-
-
-    notification.textContent =
-        "Added to cart";
-
-
-    notification.style.position =
-        "fixed";
-
-    notification.style.bottom =
-        "90px";
-
-    notification.style.left =
-        "50%";
-
-    notification.style.transform =
-        "translateX(-50%)";
-
-    notification.style.background =
-        "#111";
-
-    notification.style.color =
-        "#fff";
-
-    notification.style.padding =
-        "12px 22px";
-
-    notification.style.borderRadius =
-        "25px";
-
-    notification.style.fontSize =
-        "15px";
-
-    notification.style.fontWeight =
-        "600";
-
-    notification.style.zIndex =
-        "99999";
-
-    notification.style.boxShadow =
-        "0 5px 20px rgba(0,0,0,0.2)";
-
-
-    document.body.appendChild(
-        notification
-    );
-
-
-    setTimeout(
-        () => {
-
-            notification.remove();
-
-        },
-        1800
-    );
-
-}
-
-
-/* ==========================================
    ADD TO CART
 ========================================== */
 
@@ -521,7 +497,7 @@ modalAddToCart.addEventListener(
 
         if (!selectedSize) {
 
-            alert(
+            showNotification(
                 "Please select a size first."
             );
 
@@ -574,24 +550,21 @@ modalAddToCart.addEventListener(
         saveCart();
 
 
-        /* UPDATE CART COUNT */
+        /* UPDATE CART */
 
         updateCart();
 
 
-        /*
-           Do NOT open the cart automatically.
-           Customer can continue shopping.
-        */
+        /* CLOSE PRODUCT MODAL */
 
         closeProductModalWindow();
 
 
-        /*
-           Show clean website notification
-        */
+        /* CUSTOM PULSE NOTIFICATION */
 
-        showAddedToCart();
+        showNotification(
+            "Added to cart"
+        );
 
 
         selectedProduct = null;
@@ -1116,7 +1089,7 @@ paymentMethod.addEventListener(
             total > 100
         ) {
 
-            alert(
+            showNotification(
                 "Cash on Delivery is only available for orders of GH₵100 or below."
             );
 
@@ -1137,7 +1110,7 @@ function openCheckout() {
 
     if (cart.length === 0) {
 
-        alert(
+        showNotification(
             "Your bag is empty."
         );
 
@@ -1192,7 +1165,7 @@ checkoutForm.addEventListener(
 
         if (cart.length === 0) {
 
-            alert(
+            showNotification(
                 "Your bag is empty."
             );
 
@@ -1237,7 +1210,7 @@ checkoutForm.addEventListener(
             !address
         ) {
 
-            alert(
+            showNotification(
                 "Please complete all delivery details."
             );
 
@@ -1248,7 +1221,7 @@ checkoutForm.addEventListener(
 
         if (!selectedPayment) {
 
-            alert(
+            showNotification(
                 "Please select a payment method."
             );
 
@@ -1277,7 +1250,7 @@ checkoutForm.addEventListener(
             total > 100
         ) {
 
-            alert(
+            showNotification(
                 "Cash on Delivery is only available for orders of GH₵100 or below."
             );
 
@@ -1298,7 +1271,9 @@ checkoutForm.addEventListener(
                 : "Mobile Money";
 
 
-        /* MESSAGE */
+        /* ======================================
+           WHATSAPP MESSAGE
+        ====================================== */
 
         let message =
             "PULSE WEAR ORDER\n\n";
@@ -1394,7 +1369,7 @@ checkoutForm.addEventListener(
 
 
         /* ======================================
-           REPLACE WITH YOUR REAL WHATSAPP NUMBER
+           WHATSAPP NUMBER
         ====================================== */
 
         const whatsappNumber =
@@ -1414,7 +1389,7 @@ checkoutForm.addEventListener(
         );
 
 
-        /* CLEAR CART AFTER ORDER */
+        /* CLEAR CART */
 
         cart = [];
 
