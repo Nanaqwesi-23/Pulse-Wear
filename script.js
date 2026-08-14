@@ -28,60 +28,76 @@ function showNotification(message) {
 
     if (!notification) {
 
-        notification = document.createElement("div");
+        notification =
+            document.createElement("div");
 
         notification.className =
             "pulse-notification";
 
+        /* POSITION — UPPER RIGHT */
+
         notification.style.position = "fixed";
-        notification.style.left = "50%";
-        notification.style.bottom = "95px";
+        notification.style.top = "25px";
+        notification.style.right = "25px";
+        notification.style.left = "auto";
+
+        /* APPEARANCE */
 
         notification.style.background = "#111";
         notification.style.color = "#fff";
-
-        notification.style.padding = "14px 24px";
-
+        notification.style.padding = "14px 20px";
         notification.style.borderRadius = "6px";
-
         notification.style.fontSize = "14px";
         notification.style.fontWeight = "600";
-
         notification.style.zIndex = "99999";
         notification.style.textAlign = "center";
+        notification.style.maxWidth = "calc(100% - 50px)";
+        notification.style.boxShadow =
+            "0 5px 20px rgba(0,0,0,0.2)";
 
-        notification.style.maxWidth =
-            "calc(100% - 30px)";
+        /* ANIMATION */
 
         notification.style.opacity = "0";
 
         notification.style.transform =
-            "translateX(-50%) translateY(20px)";
+            "translateY(-15px)";
 
         notification.style.transition =
             "opacity 0.25s ease, transform 0.25s ease";
 
-        notification.style.pointerEvents = "none";
+        notification.style.pointerEvents =
+            "none";
 
-        document.body.appendChild(notification);
+        document.body.appendChild(
+            notification
+        );
     }
 
-    notification.textContent = message;
+    notification.textContent =
+        message;
 
-    notification.style.opacity = "1";
+    /* SHOW */
+
+    notification.style.opacity =
+        "1";
 
     notification.style.transform =
-        "translateX(-50%) translateY(0)";
+        "translateY(0)";
 
-    clearTimeout(window.pulseNotificationTimer);
+    /* RESET TIMER */
+
+    clearTimeout(
+        window.pulseNotificationTimer
+    );
 
     window.pulseNotificationTimer =
         setTimeout(() => {
 
-            notification.style.opacity = "0";
+            notification.style.opacity =
+                "0";
 
             notification.style.transform =
-                "translateX(-50%) translateY(20px)";
+                "translateY(-15px)";
 
         }, 2500);
 }
